@@ -7,7 +7,7 @@ Material Design: Color picker inspired by <a href="http://www.google.com/design/
 Example:
 
     <paper-color-picker id="picker"></paper-color-picker>
-    
+
 and to open the dialog
 
     this.$.picker.open();
@@ -23,12 +23,11 @@ and to open the dialog
 <link href="../paper-input/paper-input-container.html" rel="import">
 <link href="../neon-animation/animations/fade-out-animation.html" rel="import">
 <link href="../neon-animation/animations/scale-up-animation.html" rel="import">
-<script src="../whenever.js/whenever.js"></script>
 <link href="paper-color-circle.html" rel="import">
 
 <style>
   html /deep/ .color-picker-dialog::shadow #scroller {
-    
+
     padding:0px;
   }
 </style>
@@ -38,7 +37,7 @@ and to open the dialog
       width:200px;
       height:200px;
     }
-    
+
     #container {
       margin-top: 0px;
       padding: 0px;
@@ -48,12 +47,12 @@ and to open the dialog
       right:0px;
       bottom:0px;*/
     }
-    
+
     #preview {
       padding: 0px;
       position: relative;
     }
-    
+
     paper-slider {
       width:100%;
     }
@@ -190,7 +189,7 @@ and to open the dialog
   </style>
   <template>
 
-  <paper-dialog id="dialog" 
+  <paper-dialog id="dialog"
                 entry-animation="scale-up-animation"
                 exit-animation="fade-out-animation"
                 with-backdrop
@@ -199,12 +198,7 @@ and to open the dialog
     <div id="preview">
       <div id="color"></div>
       <div id="title">
-        <template is="dom-if" if="{{noFullNames}}">
-          Color Picker
-        </template>
-        <template is="dom-if" if="{{!noFullNames}}">
-          {{immediateColorAsString}}
-        </template>
+        {{immediateColorAsString}}
       </div>
     </div>
     <div id="detail">
@@ -259,26 +253,9 @@ and to open the dialog
 
   </paper-dialog>
 </template>
+  <script src="./color-names.js"></script>
   <script>
     (function(){
-      var colorNamesRetrieved = new Whenever();
-      var retrievingColorNames = false;
-      var retrieveColorNames = function(el){
-        if(!retrievingColorNames){
-          var httpRequest = new XMLHttpRequest();
-          httpRequest.onreadystatechange = function(){
-            if (httpRequest.readyState === XMLHttpRequest.DONE) {
-              if (httpRequest.status === 200) {
-                colorNamesRetrieved.ready(JSON.parse(httpRequest.responseText));
-              }
-            }
-          };
-          httpRequest.open('GET', el.resolveUrl('./color-names.json'));
-          httpRequest.send();
-        }
-        retrievingColorNames = true;
-        return colorNamesRetrieved;
-      };
 
       Polymer({
         is: 'paper-color-picker',
@@ -380,9 +357,6 @@ and to open the dialog
             value: 'hsv',
             notify: true
           },
-          noFullNames: {
-            type: Boolean
-          },
           immediateColorAsString: {
             type: String,
             notify: true
@@ -406,10 +380,6 @@ and to open the dialog
           }
           if(!this.alwaysShowAlpha){
             this.set('alwaysShowAlpha', false);
-          }
-          if(!this.noFullNames){
-            this.set('noFullNames', false);
-            retrieveColorNames(this);
           }
           this.async(function(){
             if(this._isColorDefined()){
@@ -479,29 +449,26 @@ and to open the dialog
             this.immediateColor.alpha = 1;
           }
           this.$.color.style.backgroundColor = 'rgba(' + this.immediateColor['red'] + ',' + this.immediateColor['green'] + ',' + this.immediateColor['blue'] + ',' + this.immediateColor['alpha'] + ')';
-          if(!this.noFullNames){
-            colorNamesRetrieved.whenReady(function(colors){
-              var closest = {
-                color: undefined,
-                distance: Infinity
-              };
-              colors.forEach((color) => {
-                var distance = Math.sqrt(Math.pow(this.immediateColor['red']-color.rgb[0],2)+Math.pow(this.immediateColor['green']-color.rgb[1],2)+Math.pow(this.immediateColor['blue']-color.rgb[2],2));
-                if(distance < closest.distance){
-                  closest.color = color;
-                  closest.distance = distance;
-                }
-              });
-              this.immediateColorAsString = closest.color.title;
+          var closest = {
+            color: undefined,
+            distance: Infinity
+          };
+          colors.forEach((color) => {
+            var distance = Math.sqrt(Math.pow(this.immediateColor['red']-color.rgb[0],2)+Math.pow(this.immediateColor['green']-color.rgb[1],2)+Math.pow(this.immediateColor['blue']-color.rgb[2],2));
+            if(distance < closest.distance){
+              closest.color = color;
+              closest.distance = distance;
+            }
+          });
+          this.immediateColorAsString = closest.color.title;
 
-              var luminance = Math.max(this._calculateLuminance.apply(this, closest.color.rgb), Math.min(1,1-this.immediateColor.alpha+0.2));
-              //shy: ­
-              var opacity = Math.max(0,luminance -.5) *1.8;
-              opacity = Math.round(opacity*100)/100;
-              this.$.title.style.textShadow = 'rgba(0,0,0,'+ opacity +') 1px 0 60px';
-              //this.$.title.style.opacity = luminance < 0.6 ? .9 : 0.5;
-            }.bind(this));
-          }
+          var luminance = Math.max(this._calculateLuminance.apply(this, closest.color.rgb), Math.min(1,1-this.immediateColor.alpha+0.2));
+          //shy: ­
+          var opacity = Math.max(0,luminance -.5) *1.8;
+          opacity = Math.round(opacity*100)/100;
+          this.$.title.style.textShadow = 'rgba(0,0,0,'+ opacity +') 1px 0 60px';
+          //this.$.title.style.opacity = luminance < 0.6 ? .9 : 0.5;
+
           //var maxZ = Math.max.bind(Math, 0);
           //this.$.title.style.backgroundColor = 'rgb(' + maxZ(this.immediateColor['red'] - 40) + ',' + maxZ(this.immediateColor['green'] - 40) + ',' + maxZ(this.immediateColor['blue'] - 40) + ')';
         },
