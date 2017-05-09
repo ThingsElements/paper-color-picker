@@ -88,20 +88,6 @@ and to open the dialog
       display: block;
       margin: auto;
     }
-    #title {
-      position: absolute;
-      text-align: left;
-      color: white;
-      @apply(--paper-font-common-base);
-      font-size: 28px;
-      font-weight: 400;
-      letter-spacing: -.01em;
-      line-height: 38px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      padding: 20px;
-      padding-bottom: 30px;
-    }
     #preview {
       margin-top: 0px;
       background-image:
@@ -155,10 +141,6 @@ and to open the dialog
         max-width: 350px;
         flex-direction: column;
       }
-      #title{
-        padding-top: 40px;
-        padding-bottom: 15px;
-      }
       #detail{
         padding-top: 20px;
       }
@@ -197,9 +179,6 @@ and to open the dialog
 
     <div id="preview">
       <div id="color"></div>
-      <div id="title">
-        {{immediateColorAsString}}
-      </div>
     </div>
     <div id="detail">
 
@@ -253,7 +232,7 @@ and to open the dialog
 
   </paper-dialog>
 </template>
-  <script src="./color-names.js"></script>
+
   <script>
     (function(){
 
@@ -448,29 +427,9 @@ and to open the dialog
           if(typeof this.immediateColor.alpha == 'undefined'){
             this.immediateColor.alpha = 1;
           }
-          this.$.color.style.backgroundColor = 'rgba(' + this.immediateColor['red'] + ',' + this.immediateColor['green'] + ',' + this.immediateColor['blue'] + ',' + this.immediateColor['alpha'] + ')';
-          var closest = {
-            color: undefined,
-            distance: Infinity
-          };
-          colors.forEach((color) => {
-            var distance = Math.sqrt(Math.pow(this.immediateColor['red']-color.rgb[0],2)+Math.pow(this.immediateColor['green']-color.rgb[1],2)+Math.pow(this.immediateColor['blue']-color.rgb[2],2));
-            if(distance < closest.distance){
-              closest.color = color;
-              closest.distance = distance;
-            }
-          });
-          this.immediateColorAsString = closest.color.title;
-
-          var luminance = Math.max(this._calculateLuminance.apply(this, closest.color.rgb), Math.min(1,1-this.immediateColor.alpha+0.2));
-          //shy: ­
-          var opacity = Math.max(0,luminance -.5) *1.8;
-          opacity = Math.round(opacity*100)/100;
-          this.$.title.style.textShadow = 'rgba(0,0,0,'+ opacity +') 1px 0 60px';
-          //this.$.title.style.opacity = luminance < 0.6 ? .9 : 0.5;
-
-          //var maxZ = Math.max.bind(Math, 0);
-          //this.$.title.style.backgroundColor = 'rgb(' + maxZ(this.immediateColor['red'] - 40) + ',' + maxZ(this.immediateColor['green'] - 40) + ',' + maxZ(this.immediateColor['blue'] - 40) + ')';
+          var colorAsString = 'rgba(' + this.immediateColor['red'] + ',' + this.immediateColor['green'] + ',' + this.immediateColor['blue'] + ',' + this.immediateColor['alpha'] + ')'
+          this.$.color.style.backgroundColor = colorAsString;
+          this.immediateColorAsString = colorAsString;
         },
         drawHuePicker: function(){
           this._huePickerCtx = Polymer.dom(this.root).querySelector('#huePicker').getContext('2d');
