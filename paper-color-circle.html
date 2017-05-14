@@ -335,6 +335,10 @@
             this.$.rippleContainer.style.height = this.size + 'px';
 
             var halfsize = this.size/2;
+
+            if(!this.size)
+              return;
+
             var bitmap = this._ctx.getImageData(0, 0, this.size, this.size);
             var smoothBorder = 0;
             for (var y = 0; y < this.size; y++){
