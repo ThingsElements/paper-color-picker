@@ -63,7 +63,7 @@ and to open the dialog
       box-sizing:border-box;
       margin:-10px 0px 0px 0px;
     }
-    ::slotted(#huePicker) {
+    #huePicker {
       width:255px;
       margin:15px;
       height:15px;
@@ -201,7 +201,7 @@ and to open the dialog
         <template is="dom-if" if="{{_showHuePicker(shape)}}">
           <paper-input-container attr-for-value="id">
             <label slot="label">Hue</label>
-            <canvas id="huePicker" class="paper-input-input" on-tap="huePickerPickColor" on-track="huePickerPickColor" width="360" height="1" slot="input"></canvas>
+            <canvas id="huePicker" class="paper-input-input" on-tap="huePickerPickColor" on-track="huePickerPickColor" height="15" width="360" height="1" slot="input"></canvas>
           </paper-input-container>
           <!--<paper-slider id="hueSlider" min="0" max="100" value="50" immediate-value="{{sliderHue}}"></paper-slider>-->
         </template>
