@@ -67,14 +67,14 @@ There are three different main configurations all 3 elements allow: `circle`, `s
 			}
 		</style>
 		<paper-input-container id="input" always-float-label="{{_isValueDefined(value.*)}}">
-			<label>{{label}}</label>
-			<div class="paper-input-input">
+			<label slot="label">{{label}}</label>
+			<div class="paper-input-input" slot="input">
 				<span>{{colorName}}</span>&nbsp;<!--
 				--><template is="dom-if" if="{{withDescription}}"><!--
 					--><span class="light">rgb<template is="dom-if" if="{{allowAlpha}}">a</template>(</span><span class="dark">{{value.red}}</span><span class="light">, </span><span class="dark">{{value.green}}</span><span class="light">, </span><span class="dark">{{value.blue}}</span><template is="dom-if" if="{{allowAlpha}}"><span class="light">, </span><span class="dark">{{value.alpha}}</span></template><span class="light">)</span>
 			</template>
 			</div>
-			<div id="colorPreview" suffix>
+			<div id="colorPreview" slot="suffix">
 				<div id="color" style$="{{_computeBackgroundColor(value.*)}}"></div>
 				<div id="noColor" hidden="{{_isValueDefined(value.*)}}"></div>
 			</div>

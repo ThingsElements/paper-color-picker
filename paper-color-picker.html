@@ -188,28 +188,28 @@ and to open the dialog
       <div id="details">
         <template is="dom-if" if="{{_showValueSlider(shape, type)}}">
           <paper-input-container attr-for-value="immediate-value">
-            <label>Value (Brightness)</label>
-            <paper-slider id="valueSlider" class="paper-input-input" min="0" max="100" pin="true" value="100" immediate-value="{{sliderValue}}"></paper-slider>
+            <label slot="label">Value (Brightness)</label>
+            <paper-slider id="valueSlider" class="paper-input-input" min="0" max="100" pin="true" value="100" immediate-value="{{sliderValue}}" slot="input"></paper-slider>
           </paper-input-container>
         </template>
         <template is="dom-if" if="{{_showLightnessSlider(shape, type)}}">
           <paper-input-container attr-for-value="immediate-value">
-            <label>Lightness</label>
-            <paper-slider id="lightnessSlider" class="paper-input-input" min="0" max="100" pin="true" value="50" immediate-value="{{sliderLightness}}"></paper-slider>
+            <label slot="label">Lightness</label>
+            <paper-slider id="lightnessSlider" class="paper-input-input" min="0" max="100" pin="true" value="50" immediate-value="{{sliderLightness}}" slot="input"></paper-slider>
           </paper-input-container>
         </template>
         <template is="dom-if" if="{{_showHuePicker(shape)}}">
           <paper-input-container attr-for-value="id">
-            <label>Hue</label>
-            <canvas id="huePicker" class="paper-input-input" on-tap="huePickerPickColor" on-track="huePickerPickColor" width="360" height="1"></canvas>
+            <label slot="label">Hue</label>
+            <canvas id="huePicker" class="paper-input-input" on-tap="huePickerPickColor" on-track="huePickerPickColor" width="360" height="1" slot="input"></canvas>
           </paper-input-container>
           <!--<paper-slider id="hueSlider" min="0" max="100" value="50" immediate-value="{{sliderHue}}"></paper-slider>-->
         </template>
 
         <template is="dom-if" if="{{_and(allowAlpha,_initialAlphaValueHackApplied)}}">
           <paper-input-container attr-for-value="immediate-value" hidden$="{{!_or(alwaysShowAlpha, advanced)}}">
-            <label>Alpha (transparency)</label>
-            <paper-slider id="alphaPicker" class="paper-input-input" min="0" max="1" step="0.01" value="{{_initialAlphaValueHack}}" immediate-value="{{immediateColor.alpha}}"></paper-slider>
+            <label slot="label">Alpha (transparency)</label>
+            <paper-slider id="alphaPicker" class="paper-input-input" min="0" max="1" step="0.01" value="{{_initialAlphaValueHack}}" immediate-value="{{immediateColor.alpha}}" slot="input"></paper-slider>
           </paper-input-container>
         </template>
 
