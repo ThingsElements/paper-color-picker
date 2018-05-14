@@ -208,7 +208,7 @@ and to open the dialog
         <template is="dom-if" if="{{_and(allowAlpha,_initialAlphaValueHackApplied)}}">
           <paper-input-container attr-for-value="immediate-value" hidden$="{{!_or(alwaysShowAlpha, advanced)}}">
             <label>Alpha (transparency)</label>
-            <paper-slider id="alphaPicker" class="paper-input-input" min="0" max="1" step="0.01" value="{{_initialAlphaValueHack}}" immediate-value="{{immediateColor.alpha}}"></paper-slider>
+            <paper-slider id="alphaPicker" class="paper-input-input" min="0" max="1" step="0.01" value="{{_initialAlphaValueHack}}" immediate-value="{{immediateColor.alpha}}" on-change="_onAlphaChanged"></paper-slider>
           </paper-input-container>
         </template>
 
@@ -510,7 +510,9 @@ and to open the dialog
               lightnessSlider.set('value', this.colorLightness*100);
             }
           });
-
+        },
+        _onAlphaChanged: function(e) {
+          e.stopPropagation();
         }
       });
     })();
